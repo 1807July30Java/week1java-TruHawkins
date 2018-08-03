@@ -30,8 +30,22 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		StringBuilder acron = new StringBuilder("");
+		String[] words = phrase.split(" ");
+
+		for(int i = 0; i < words.length; i++) {
+			
+			String[] compoundCatcher = words[i].split("-");
+			for(int k = 0; k < compoundCatcher.length; k++) {
+				char tmp = compoundCatcher[k].charAt(0);
+				if(java.lang.Character.isLowerCase(tmp)) {
+					tmp = java.lang.Character.toUpperCase(tmp);
+				}
+				acron.append(tmp);
+			}
+		}
+		
+		return acron.toString();
 	}
 
 	/**
@@ -84,18 +98,27 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			if(sideOne == sideTwo && sideOne == sideThree) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			if(sideOne == sideTwo || sideOne == sideThree || sideTwo == sideThree) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			if(sideOne != sideTwo && sideOne != sideThree && sideThree != sideTwo) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 	}
@@ -116,8 +139,31 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		char[] letters = string.toCharArray();
+		int score = 0;
+		for(int i = 0; i < letters.length; i++) {
+			char l = letters[i];
+			if(l == 'a' || l == 'A' || l == 'e' || l == 'E' || l == 'i' || l == 'I' || l == 'o' || l == 'O'
+					|| l== 'u' || l == 'U' || l == 'l' || l == 'L' || l == 'n' || l =='N' || l == 'r' 
+					|| l == 'R' || l == 's'|| l == 'S' || l == 't' || l == 'T') {
+				score += 1;
+			} else if(l == 'd' || l == 'D' || l == 'g' || l == 'G') {
+				score += 2;
+			} else if(l == 'b' || l == 'B' || l == 'c' || l == 'C' || l == 'm' || l == 'M' || l =='p' || l == 'P') {
+				score += 3;
+			} else if(l == 'f' || l == 'F' || l == 'h' || l == 'H' || l == 'v' || l == 'V' || l == 'w'
+					|| l == 'W' || l == 'y' || l == 'Y') {
+				score += 4;
+			} else if(l == 'k' || l == 'K') {
+				score += 5;
+			} else if(l == 'j' || l == 'J' || l == 'x' || l == 'X') {
+				score += 8;
+			} else if(l == 'q' || l == 'Q' || l =='z' || l == 'Z') {
+				score += 10;
+			}
+				
+		}
+		return score;
 	}
 
 	/**
@@ -152,9 +198,30 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		boolean goodNum = true;
+		StringBuilder cleanNumber = new StringBuilder("");
+		for(int i = 0; i < string.length(); i++) {
+			char c = string.charAt(i);
+			if(c == '.' || c == ' ' || c == '(' || c == ')' || c == '-') {
+				continue;
+			} else if(java.lang.Character.isDigit(string.charAt(i))){
+				cleanNumber.append(string.charAt(i));
+			} else {
+				goodNum = false;
+			}
+		}
+		
+		if(cleanNumber.length() > 11 || (cleanNumber.length() == 11 && cleanNumber.charAt(0) != '1')) {
+			goodNum = false;
+		}
+		if(goodNum) {
+			return cleanNumber.toString();
+		} else {
+			throw new java.lang.IllegalArgumentException();
+		}
 	}
+	
+	
 
 	/**
 	 * 6. Given a phrase, count the occurrences of each word in that phrase.
